@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.imikasa.Mapper.UserMapper">
+    
+    <resultMap id="userMap" type="com.imikasa.pojo.User">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="pwd" property="pwd"/>
+
+    </resultMap>
+
+    <select id="getUserByName" parameterType="string" resultMap="userMap">
+        select * from t_user where user_name = #{userName}
+    </select>
+
+    <select id="getUserPermission" resultType="string" parameterType="int">
+        select tp.permission_name from t_user_role ur left join t_role_permission trp on ur.role_id = trp.role_id left join t_permission tp on trp.permission_id = tp.id where ur.id = #{id};
+    </select>
+
+    <update id="updatePwd" parameterType="string">
+        update t_user set pwd = #{pwd} where user_name = #{userName}
+    </update>
+
+</mapper>
